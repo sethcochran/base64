@@ -21,7 +21,12 @@ await this._initializeBuffer();
 async _initializeBuffer() {
 const binaryString = atob(this.audioBufferString.split(',')[1]);
 const bytes = Uint8Array.from(binaryString, char => char.charCodeAt(0));
-this.buffer = await this.audioContext.decodeAudioData(bytes.buffer);
+try {
+    this.buffer = await this.audioContext.decodeAudioData(bytes.buffer);
+    console.log("Audio decoded successfully");
+} catch (e) {
+    console.error("DECODE ERROR:", e);
+}
 }
 
 _createSource() {
